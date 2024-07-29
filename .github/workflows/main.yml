@@ -16,7 +16,7 @@ jobs:
   build-workflow: 
     uses: ./.github/workflows/build.yml
     with:
-      dotnet_version: ${{ DOTNET_VERSION }}
+      dotnet_version: $DOTNET_VERSION
 
   deploy-workflow-dev:
     needs: build-workflow
