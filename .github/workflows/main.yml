@@ -15,7 +15,7 @@ jobs:
   build-workflow: 
     uses: ./.github/workflows/build.yml
     with:
-      dotnet_version: '8'
+      dotnet_version: '${{ env.DOTNET_VERSION }}'
 
   deploy-workflow-dev:
     needs: build-workflow
@@ -26,7 +26,7 @@ jobs:
     with:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
-      dotnet_version: '8'
+      dotnet_version: '${{ env.DOTNET_VERSION }}'
 
   deploy-workflow-Test:
     needs: deploy-workflow-dev
@@ -37,6 +37,6 @@ jobs:
     with:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
-      dotnet_version: '8'
+      dotnet_version: '${{ env.DOTNET_VERSION }}'
 
     
