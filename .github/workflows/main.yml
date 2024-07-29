@@ -6,28 +6,28 @@ on:
   pull_request:
 
 env:
-  AZURE_WEBAPP_NAME: WorkFlow    # set this to the name of your Azure Web App
-  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
-  DOTNET_VERSION: 5.1.101
-  ArtifactName: 'WorkFlow' 
+  DOTNET_VERSION: 6.0.x
+  # AZURE_WEBAPP_NAME: WorkFlow    # set this to the name of your Azure Web App
+  # AZURE_WEBAPP_PACKAGE_PATH: '.'     # set this to the path to your web app project, defaults to the repository roo  
+  # ArtifactName: 'WorkFlow' 
 
 
 jobs:
   build-workflow: 
     uses: ./.github/workflows/build.yml
     with:
-      dotnet_version: 5.1.101
+      dotnet_version: ${{ env.DOTNET_VERSION }}
 
   deploy-workflow-dev:
     needs: build-workflow
     strategy:
       matrix:
-        target: [dev]
+        target: [dev]   
     uses: ./.github/workflows/deployment.yml    
     with:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
-      dotnet_version: $DOTNET_VERSION
+      dotnet_version: ${{ env.DOTNET_VERSION }}
 
   deploy-workflow-Test:
     needs: deploy-workflow-dev
@@ -38,5 +38,5 @@ jobs:
     with:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
-      dotnet_version: $DOTNET_VERSION
+      dotnet_version: ${{ env.DOTNET_VERSION }}
     
