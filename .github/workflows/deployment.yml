@@ -1,0 +1,34 @@
+name: Deployment
+
+on:
+  workflow_call:  
+    inputs:
+      environment:
+        description: The name of the environment to deploy to
+        required: true
+        type: string 
+      ref:
+        description: The name of the ref to start deploy 
+        required: true
+        type: string
+
+
+
+jobs:
+   deploy:
+    name: Deploy Web App
+    runs-on: windows-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.ArtifactName }}
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}

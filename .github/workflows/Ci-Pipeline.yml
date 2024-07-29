@@ -1,0 +1,39 @@
+name: Build Web App
+
+env:
+  AZURE_WEBAPP_NAME: TestDemo    # set this to the name of your Azure Web App
+  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
+  DOTNET_VERSION: '5' 
+  ArtifactName: 'TestDemo'
+
+on:
+  push:
+    branches: 
+      - master
+
+jobs:
+  build-workflow: 
+    uses: ./.github/workflows/build.yml
+
+  deploy-workflow-dev:
+    strategy:
+      matrix:
+        target: [dev]
+    uses: ./.github/workflows/deployment.yml
+    needs: [build-workflow]
+    with:
+      environment: ${{ matrix.target }}
+      ref: '${{ github.ref }}'
+
+  deploy-workflow-Test:
+    strategy:
+      matrix:
+        target: [Test]
+    uses: ./.github/workflows/deployment.yml
+    needs: [deploy-workflow-dev]
+    with:
+      environment: ${{ matrix.target }}
+      ref: '${{ github.ref }}'
+  
+
+    

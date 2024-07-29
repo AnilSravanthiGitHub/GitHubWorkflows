@@ -1,0 +1,33 @@
+name: Build
+
+on:
+  workflow_call:
+
+jobs:
+   build:
+    name: Build Web App
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout the code
+      uses: actions/checkout@v2
+
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Install dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Publish
+      run: dotnet publish -c Release -o publish_output
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: publish_output
+        path: publish_output/${{ env.ArtifactName }}
