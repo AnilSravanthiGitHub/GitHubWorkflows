@@ -27,7 +27,7 @@ jobs:
     with:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
-      dotnet_version: ${{ env.DOTNET_VERSION }}
+      dotnet_version: $DOTNET_VERSION
 
   deploy-workflow-Test:
     needs: deploy-workflow-dev
@@ -38,6 +38,6 @@ jobs:
     with:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
-      dotnet_version: ${{ env.DOTNET_VERSION }}
+      dotnet_version: $DOTNET_VERSION
 
     
