@@ -1,13 +1,17 @@
 name: Build
 
-on:
-  workflow_call:
+on: 
+    workflow_call:  
+       inputs:  
+          dotnet_version:
+             description: The version of .NET Core to use
+             required: true
+             type: string
 
 jobs:
    build:
     name: Build Web App
     runs-on: windows-latest
-
     steps:
     - name: Checkout the code
       uses: actions/checkout@v2
