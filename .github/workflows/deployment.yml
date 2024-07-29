@@ -33,10 +33,13 @@ jobs:
           ref: ${{ inputs.ref }}
 
       - name: Azure login
-        uses: azure/login@v2
+        id: login
+        uses: azure/login@v1
         with:
-          auth-type: SERVICE_PRINCIPAL
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          # client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
 
       - name: Azure CLI script
         uses: azure/cli@v2
