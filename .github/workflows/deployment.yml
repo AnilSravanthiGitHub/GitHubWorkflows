@@ -1,5 +1,9 @@
 name: Deployment
 
+permissions:
+  id-token: write
+  contents: read
+
 on:
   workflow_call:  
     inputs:
@@ -8,13 +12,9 @@ on:
         required: true
         type: string 
       ref:
-        description: The name of the ref to start deploy 
+        description: The name of the ref to to deploy from 
         required: true
         type: string
-
-permissions:
-  id-token: write
-  contents: read
 
 
 jobs:
@@ -22,11 +22,12 @@ jobs:
     name: Deploy Web App
     runs-on: windows-latest
     environment: ${{ inputs.environment }}
+
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
         with:
-          name: ${{ env.ArtifactName }}
+          ref: ${{ inputs.ref }}
 
       - name: Azure login
         uses: azure/login@v2

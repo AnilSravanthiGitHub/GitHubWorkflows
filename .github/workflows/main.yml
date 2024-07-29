@@ -14,23 +14,25 @@ on:
 jobs:
   build-workflow: 
     uses: ./.github/workflows/build.yml
+    with:
+      dotnet_version: ${{ env.DOTNET_VERSION }}
 
   deploy-workflow-dev:
+    needs: build-workflow
     strategy:
       matrix:
         target: [dev]
-    uses: ./.github/workflows/deployment.yml
-    needs: [build-workflow]
+    uses: ./.github/workflows/deployment.yml    
     with:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
 
   deploy-workflow-Test:
+    needs: deploy-workflow-dev
     strategy:
       matrix:
         target: [Test]
-    uses: ./.github/workflows/deployment.yml
-    needs: [deploy-workflow-dev]
+    uses: ./.github/workflows/deployment.yml    
     with:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'

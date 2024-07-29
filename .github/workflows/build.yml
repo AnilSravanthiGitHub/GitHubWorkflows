@@ -24,10 +24,7 @@ jobs:
       run: dotnet build --configuration Release --no-restore
 
     - name: Publish
-      run: dotnet publish -c Release -o publish_output
+      run: dotnet publish -c Release -o ${{ github.workspace }}/publish_output
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: publish_output
-        path: publish_output/${{ env.ArtifactName }}
+    outputs:
+      publish_path: ${{ github.workspace }}/publish_output
