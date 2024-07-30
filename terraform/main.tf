@@ -5,14 +5,12 @@ terraform {
       version = ">= 3.7.0"
     }
   }
- }
-
-backend "azurerm" {
-    key = "terraform.tfstate"
-  }
-  
+}
+ 
 provider "azurerm" {
   features {}
+
+  skip_provider_registration = "true"
 }
 
 resource "azurerm_resource_group" "resgrp" {
@@ -47,4 +45,6 @@ resource "azurerm_app_service" "appsvc" {
 
 output "app_service_default_hostname" {
   value = azurerm_app_service.appsvc.default_site_hostname
+}
+
 }
