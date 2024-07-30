@@ -1,8 +1,8 @@
 name: Deployment
 
 permissions:
-   contents: read
-   issues: none
+  id-token: write
+  contents: read
 
 on: 
   workflow_call:  
