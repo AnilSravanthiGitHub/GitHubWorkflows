@@ -20,8 +20,8 @@ jobs:
 
   deploy-workflow-dev:
     permissions:
-      id-token: read
-      contents: read
+      id-token: 'read'
+      contents: 'read'
     needs: build-workflow
     strategy:
       matrix:
@@ -36,8 +36,8 @@ jobs:
 
   deploy-workflow-Test:
     permissions:
-      id-token: read
-      contents: read
+      id-token: 'read'
+      contents: 'read'
     needs: deploy-workflow-dev
     strategy:
       matrix:
