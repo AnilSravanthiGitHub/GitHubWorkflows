@@ -2,12 +2,7 @@ name: Build  Terraform
 
 on: 
   workflow_call:  
-    # inputs:  
-    #   dotnet_version:
-    #      description: The version of .NET Core to use
-    #      required: true
-    #      type: string
-
+    
 jobs:
    build:    
     runs-on: windows-latest

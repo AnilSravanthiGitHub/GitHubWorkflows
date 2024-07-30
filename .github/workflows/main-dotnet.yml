@@ -2,7 +2,8 @@ name: Build Web App
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main" ]    
+    paths: ["./GitHubActionsPractice/**"]
   pull_request:
 
 env:

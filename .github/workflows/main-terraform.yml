@@ -3,6 +3,7 @@ name: Build Terraform
 on:
   push:
     branches: [ "main" ]
+    paths: ["./terraform/**"]
   pull_request:
 
 # env:
@@ -14,9 +15,7 @@ on:
 
 jobs:
   build-workflow: 
-    uses: ./.github/workflows/build-terraform.yml
-    # with:
-    #   dotnet_version: '8.0.x'
+    uses: ./.github/workflows/build-terraform.yml   
 
   deploy-workflow-dev:    
     needs: build-workflow
@@ -27,7 +26,6 @@ jobs:
     with:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
-      # dotnet_version: '8.0.x'
     secrets: inherit # pass all secrets
 
 
@@ -43,7 +41,6 @@ jobs:
     with:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
-      dotnet_version: '8.0.x'
     secrets: inherit # pass all secrets
 
     
