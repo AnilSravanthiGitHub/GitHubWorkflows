@@ -3,6 +3,7 @@ name: Main Terraform
 on:
   push:
     branches: [ "main" ]
+    paths: ["terraform/**"]
     # branches: ["main"]
     # paths: ["./terraform/**"]
   pull_request:
@@ -18,7 +19,10 @@ jobs:
   build-workflow: 
     uses: ./.github/workflows/build-terraform.yml   
 
-  deploy-workflow-dev:    
+  deploy-workflow-dev:  
+    permissions:
+      id-token: write
+      contents: read
     needs: build-workflow
     strategy:
       matrix:
