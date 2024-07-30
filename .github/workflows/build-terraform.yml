@@ -9,7 +9,7 @@ jobs:
 
     steps:
     - name: Checkout the code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
@@ -24,9 +24,15 @@ jobs:
 
     - name: Copy Terraform Files
       run: |
-        mkdir deploy
-        dir /s /b **/*.tf | xargs -I {} copy {} deploy\
+        mkdir -p copied_terraform
+        cp -r terraform/* copied_terraform
+
+    - name: upload copyed_terraform
+      uses: actions/upload-artifact@v3
+      with:
+        name: copied_terraform
+        path: copied_terraform
 
     - name: Verify Terraform Files
-      run: dir deploy
+      run: dir copied_terraform
     
