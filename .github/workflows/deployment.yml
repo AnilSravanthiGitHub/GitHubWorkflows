@@ -1,8 +1,10 @@
 name: Deployment
 
 permissions:
-  id-token: write
-  contents: read
+  id-token: 
+     required: true
+  contents: 
+     required: true
 
 on: 
   workflow_call:  
