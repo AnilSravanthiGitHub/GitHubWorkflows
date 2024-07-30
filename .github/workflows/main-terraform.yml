@@ -2,8 +2,9 @@ name: Main Terraform
 
 on:
   push:
-    branches: ["main"]
-    paths: ["./terraform/**"]
+    branches: [ "main" ]
+    # branches: ["main"]
+    # paths: ["./terraform/**"]
   pull_request:
 
 # env:
