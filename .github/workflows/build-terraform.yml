@@ -25,7 +25,7 @@ jobs:
     - name: Copy Terraform Files
       run: |
         mkdir deploy
-        dir **/*.tf | xargs -I {} copy {} deploy\
+        dir /s /b **/*.tf | xargs -I {} copy {} deploy\
 
     - name: Verify Terraform Files
       run: dir deploy
