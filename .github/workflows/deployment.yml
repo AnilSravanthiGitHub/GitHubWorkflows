@@ -2,7 +2,7 @@ name: Deployment
 
 permissions:
    contents: read
-   issues: write
+   issues: none
 
 on: 
   workflow_call:  
