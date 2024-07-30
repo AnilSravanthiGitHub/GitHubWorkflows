@@ -1,4 +1,4 @@
-name: Deployment
+name: DeploymentTerraform
 
 permissions:
   id-token: write

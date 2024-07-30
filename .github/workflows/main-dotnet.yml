@@ -1,4 +1,4 @@
-name: Build Web App
+name: Main Web App
 
 on:
   push:
