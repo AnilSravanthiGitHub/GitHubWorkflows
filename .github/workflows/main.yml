@@ -19,9 +19,6 @@ jobs:
       dotnet_version: '8.0.x'
 
   deploy-workflow-dev:
-    permissions:
-      id-token: 'read'
-      contents: 'read'
     needs: build-workflow
     strategy:
       matrix:
@@ -35,9 +32,9 @@ jobs:
 
 
   deploy-workflow-Test:
-    permissions:
-      id-token: 'read'
-      contents: 'read'
+    # permissions:
+    #   contents: read
+    #   issues: write
     needs: deploy-workflow-dev
     strategy:
       matrix:
