@@ -1,8 +1,8 @@
 name: Deployment
 
- permissions:
-    contents: read
-    issues: write  
+permissions:
+   contents: read
+   issues: write
 
 on: 
   workflow_call:  
