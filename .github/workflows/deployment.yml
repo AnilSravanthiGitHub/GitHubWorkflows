@@ -1,7 +1,7 @@
 name: Deployment
 
 permissions:
-  id-token: none
+  id-token: write
   contents: read
 
 on: 
