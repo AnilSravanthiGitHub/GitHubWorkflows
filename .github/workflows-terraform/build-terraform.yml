@@ -1,0 +1,37 @@
+name: Build  Terraform
+
+on: 
+  workflow_call:  
+    # inputs:  
+    #   dotnet_version:
+    #      description: The version of .NET Core to use
+    #      required: true
+    #      type: string
+
+jobs:
+   build:    
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout the code
+      uses: actions/checkout@v2
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_wrapper: false
+
+    - name: Validate Terraform
+      run: terraform validate
+
+    - name: Terraform Format Check
+      run: terraform fmt -check
+
+    - name: Copy Terraform Files
+      run: |
+        mkdir deploy
+        dir /s /b *.tf | xargs -I {} copy {} deploy\
+
+    - name: Verify Terraform Files
+      run: dir deploy
+    

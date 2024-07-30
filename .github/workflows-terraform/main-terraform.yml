@@ -1,36 +1,33 @@
-name: Build Web App
+name: Build Terraform
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
 
-env:
-  DOTNET_VERSION: '8.0.x'
-  AZURE_WEBAPP_NAME: 'WorkFlow'    # set this to the name of your Azure Web App
-  AZURE_WEBAPP_PACKAGE_PATH: '.'     # set this to the path to your web app project, defaults to the repository roo  
-  ArtifactName: 'WorkFlow' 
+# env:
+#   DOTNET_VERSION: '8.0.x'
+#   AZURE_WEBAPP_NAME: 'WorkFlow'    # set this to the name of your Azure Web App
+#   AZURE_WEBAPP_PACKAGE_PATH: '.'     # set this to the path to your web app project, defaults to the repository roo  
+#   ArtifactName: 'WorkFlow' 
 
 
 jobs:
   build-workflow: 
-    uses: ./.github/workflows/build.yml
-    with:
-      dotnet_version: '8.0.x'
+    uses: ./.github/workflows/build-terraform.yml
+    # with:
+    #   dotnet_version: '8.0.x'
 
-  deploy-workflow-dev:
-    permissions:
-      id-token: write
-      contents: read
+  deploy-workflow-dev:    
     needs: build-workflow
     strategy:
       matrix:
         target: [dev]   
-    uses: ./.github/workflows/deployment.yml     
+    uses: ./.github/workflows/deployment-terraform.yml
     with:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
-      dotnet_version: '8.0.x'
+      # dotnet_version: '8.0.x'
     secrets: inherit # pass all secrets
 
 
@@ -42,7 +39,7 @@ jobs:
     strategy:
       matrix:
         target: [Test]
-    uses: ./.github/workflows/deployment.yml    
+    uses: ./.github/workflows/deployment-terraform.yml
     with:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
