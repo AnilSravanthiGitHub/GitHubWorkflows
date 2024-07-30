@@ -28,6 +28,7 @@ jobs:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
       dotnet_version: '8.0.x'
+    secrets: inherit # pass all secrets
 
   deploy-workflow-Test:
     needs: deploy-workflow-dev
@@ -39,4 +40,5 @@ jobs:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
       dotnet_version: '8.0.x'
+    secrets: inherit # pass all secrets
     
