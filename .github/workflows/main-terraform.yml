@@ -3,7 +3,7 @@ name: Main Terraform
 on:
   push:
     branches: [ "main" ]
-    paths: ["./terraform/**"]
+    paths: ["GitHubworkflows/terraform/**"]
   pull_request:
 
 # env:
