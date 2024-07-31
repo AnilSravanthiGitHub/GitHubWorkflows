@@ -74,12 +74,12 @@ jobs:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         run: |
-           cd terraform
+           cd terraform/resources
            terraform init
 
       - name: Apply Terraform Configuration
         run: terraform apply -auto-approve
-        working-directory: terraform
+        working-directory: terraform/resources
         env:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -123,17 +123,17 @@ jobs:
 
       - name: List files in terraform directory
         run: |
-          cd terraform
+          cd terraform/resources
           Get-ChildItem  # Ensure the file is in the directory
   
       - name: Terraform Plan
         run: |
-          cd terraform
+          cd terraform/resources
           terraform plan --var-file=terraform.tfvars -out=tfplan
 
       - name: Terraform Apply
         run: |
-          cd terraform
+          cd terraform/resources
           terraform apply -auto-approve tfplan
 
       # - name: Save Terraform state
