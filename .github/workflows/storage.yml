@@ -26,7 +26,7 @@ jobs:
         run: terraform fmt -check
 
       - name: Terraform Init
-        run: terraform init -backend-config=./terraform/storage/terraform-backend.tfvars
+        run: terraform init --backend-config=./terraform/storage/main.tf
         working-directory: terraform/storage
         env:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
