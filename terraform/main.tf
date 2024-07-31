@@ -35,7 +35,7 @@ resource "azurerm_app_service" "appsvc" {
   app_service_plan_id = azurerm_app_service_plan.asp.id
 
   site_config {
-    dotnet_framework_version = "v8.0"
+    dotnet_framework_version = "v6.0"
   }
 
   app_settings = {
