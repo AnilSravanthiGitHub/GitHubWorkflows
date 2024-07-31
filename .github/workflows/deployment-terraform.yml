@@ -53,13 +53,22 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       
       - name: Terraform Init
-        run: terraform init
-           
+        run: |
+          cd terraform
+          terraform init
 
+      - name: List files in terraform directory
+        run: |
+          cd terraform
+          ls -al  # Ensure the file is in the directory
+  
       - name: Terraform Plan
-        run:  terraform plan --var-file=terraform.tfvars 
-           
+        run: |
+          cd terraform
+          terraform plan --var-file=terraform.tfvars
 
       - name: Terraform Apply
-        run:  terraform apply --var-file=terraform.tfvars -auto-approve
+        run: |
+          cd terraform
+          terraform apply --var-file=terraform.tfvars -auto-approve
        
