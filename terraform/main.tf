@@ -46,4 +46,3 @@ resource "azurerm_app_service" "appsvc" {
 output "app_service_default_hostname" {
   value = azurerm_app_service.appsvc.default_site_hostname
 }
-
