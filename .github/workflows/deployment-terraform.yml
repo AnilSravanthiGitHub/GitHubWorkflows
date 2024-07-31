@@ -53,12 +53,17 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       
       - name: Terraform Init
-        run: terraform init
+        run: |
+           -chdir terraform
+           terraform init
 
       - name: Terraform Plan
-        run: terraform plan -chdir=terraform -var-file=terraform/terraform.tfvars
-
+        run:  |
+           -chdir terraform           
+           terraform plan -var-file=../terraform/main.tf
 
       - name: Terraform Apply
-        run: terraform apply -chdir=terraform -var-file=terraform/terraform.tfvars -auto-approve
-      
+        run: |
+           -chdir terraform
+            terraform apply -var-file=../terraform/main.tf -auto-approve
+       
