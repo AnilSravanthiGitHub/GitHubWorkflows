@@ -22,17 +22,15 @@ resource "azurerm_service_plan" "asp" {
   name                = var.app_service_plan_name
   location            = azurerm_resource_group.resgrp.location
   resource_group_name = azurerm_resource_group.resgrp.name
-  sku {
-    tier = "Free"
-    size = "F1"
-  }
+  os_type             = "Windows"
+  sku_name            = "P1v2"
 }
 
 resource "azurerm_app_service" "appsvc" {
   name                = var.app_service_name
   location            = azurerm_resource_group.resgrp.location
   resource_group_name = azurerm_resource_group.resgrp.name
-  app_service_plan_id = azurerm_app_service_plan.asp.id
+  app_service_plan_id = azurerm_service_plan.asp.id
 
   site_config {
     dotnet_framework_version = "v6.0"
