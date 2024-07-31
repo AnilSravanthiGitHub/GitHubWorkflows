@@ -55,7 +55,12 @@ jobs:
         run: terraform validate
 
       - name: Terraform Format Check
-        run: terraform fmt -check      
+        run: terraform fmt -check   
+
+      - name: List files in terraform directory
+        run: |
+          cd terraform/storage
+          Get-ChildItem  # Ensure the file is in the directory
 
       - name: Terraform Init
         # env:
@@ -63,16 +68,8 @@ jobs:
         #   AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
         #   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
         #   AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        run: |
-           cd terraform/storage    
-           terraform init --backend-config=terraform-backend.tfvars
-        # working-directory: terraform/storage
-        
-
-      - name: List files in terraform directory
-        run: |
-          cd terraform/storage
-          Get-ChildItem  # Ensure the file is in the directory
+        run: terraform init -backend-config=terraform-backend.tfvars
+        working-directory: terraform/storage
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
