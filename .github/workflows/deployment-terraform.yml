@@ -27,7 +27,7 @@ on:
 
 jobs:
    deploy:
-    name: Deploy Web App
+    name: Azure Deploy
     runs-on: windows-latest
     environment: ${{ inputs.environment }}
 
@@ -72,10 +72,10 @@ jobs:
           cd terraform
           terraform apply -auto-approve tfplan
 
-      - name: Save Terraform state
-        uses: actions/upload-artifact@v2
-        with:
-          name: terraform-state
-          path: terraform.tfstate
+      # - name: Save Terraform state
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: terraform-state
+      #     path: terraform.tfstate
 
        

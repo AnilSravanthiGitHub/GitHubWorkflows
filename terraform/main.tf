@@ -5,6 +5,12 @@ terraform {
       version = ">= 3.7.0"
     }
   }
+  backend "azurerm" {
+        resource_group_name  = var.resource_group_name
+        storage_account_name = var.storage_account_name
+        container_name       = var.storage_container_name
+        key                  = "terraform.tfstate"
+    }
 }
  
 provider "azurerm" {
@@ -13,23 +19,18 @@ provider "azurerm" {
   skip_provider_registration = "true"
 }
 
-resource "azurerm_resource_group" "resgrp" {
-  name     = var.resource_group_name
-  location = var.location
-}
-
 resource "azurerm_service_plan" "asp" {
   name                = var.app_service_plan_name
-  location            = azurerm_resource_group.resgrp.location
-  resource_group_name = azurerm_resource_group.resgrp.name
+  location            = var.location
+  resource_group_name = var.resource_group_name
   os_type             = "Windows"
   sku_name            = "P1v2"
 }
 
 resource "azurerm_app_service" "appsvc" {
   name                = var.app_service_name
-  location            = azurerm_resource_group.resgrp.location
-  resource_group_name = azurerm_resource_group.resgrp.name
+  location            = var.location
+  resource_group_name = var.resource_group_name
   app_service_plan_id = azurerm_service_plan.asp.id
 
   site_config {

@@ -10,6 +10,27 @@ variable "location" {
   
 }
 
+variable "storage_account_name" {
+    type    = string
+}
+
+variable "storage_account_tier" {
+    type    = string
+}
+
+variable "storage_account_replication_type" {
+    type    = string
+}
+
+
+variable "storage_container_name" {
+    type    = string
+}
+
+variable "container_access_type" {
+    type    = string
+}
+
 variable "app_service_plan_name" {
   description = "Name of the App Service plan"
   type        = string
