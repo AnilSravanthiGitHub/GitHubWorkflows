@@ -52,16 +52,20 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      - name: Change Directory to Terraform
+        run: cd terraform
+
       - name: Terraform Init
-        run: terraform -chdir=terraform init
+        run: terraform init
+        working-directory: ./terraform
         
 
       - name: Terraform Plan
-        run: terraform -chdir=terraform plan -var-file=terraform.tfvars
-        
+        run: terraform plan -var-file=terraform.tfvars
+        working-directory: ./terraform
         
 
       - name: Terraform Apply
-        run: terraform -chdir=terraform apply -var-file=terraform.tfvars -auto-approve
-       
+        run: terraform apply -var-file=terraform.tfvars -auto-approve
+        working-directory: ./terraform
       
