@@ -71,4 +71,11 @@ jobs:
         run: |
           cd terraform
           terraform apply -auto-approve tfplan
+
+      - name: Save Terraform state
+        uses: actions/upload-artifact@v2
+        with:
+          name: terraform-state
+          path: terraform.tfstate
+
        
