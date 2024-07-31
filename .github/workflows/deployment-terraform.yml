@@ -76,7 +76,7 @@ jobs:
         run: |
           terraform init
           terraform apply -auto-approve
-        working-directory: terraform-backend
+        working-directory: terraform
 
       - name: Set backend configuration
         id: get_backend_config
@@ -84,7 +84,7 @@ jobs:
           # echo "##[set-output name=storage_account_name;]$(terraform output -raw storage_account_name)"
           # echo "##[set-output name=container_name;]$(terraform output -raw container_name)"
           echo "##[set-output name=storage_account_key;]$(terraform output -raw storage_account_key)"
-        working-directory: terraform-backend
+        working-directory: terraform
       
       - name: Terraform Init
         env:
