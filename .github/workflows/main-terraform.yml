@@ -17,11 +17,25 @@ jobs:
   build-workflow: 
     uses: ./.github/workflows/build-terraform.yml   
 
-  deploy-workflow-dev:  
+  deploy-backendworkflow-dev:  
     permissions:
       id-token: write
       contents: read
     needs: build-workflow
+    strategy:
+      matrix:
+        target: [dev]   
+    uses: ./.github/workflows/deployment-backend-terraform.yml
+    with:
+      environment: ${{ matrix.target }}
+      ref: '${{ github.ref }}'
+    secrets: inherit # pass all secrets
+
+  deploy-workflow-dev:  
+    permissions:
+      id-token: write
+      contents: read
+    needs: deploy-backendworkflow-dev
     strategy:
       matrix:
         target: [dev]   
