@@ -5,12 +5,7 @@ terraform {
       version = ">= 3.7.0"
     }
   }
-  backend "azurerm" {
-        resource_group_name  = var.resource_group_name
-        storage_account_name = var.storage_account_name
-        container_name       = var.storage_container_name
-        key                  = "terraform.tfstate"
-    }
+  
 }
  
 provider "azurerm" {
@@ -38,6 +33,15 @@ resource "azurerm_storage_container" "container" {
   name                  = "terraform-state"
   storage_account_name  = azurerm_storage_account.storage.name
   container_access_type = "private"
+}
+
+terraform{
+backend "azurerm" {
+        resource_group_name  = var.resource_group_name
+        storage_account_name = var.storage_account_name
+        container_name       = var.storage_container_name
+        key                  = "terraform.tfstate"
+    }
 }
 
 resource "azurerm_service_plan" "asp" {
