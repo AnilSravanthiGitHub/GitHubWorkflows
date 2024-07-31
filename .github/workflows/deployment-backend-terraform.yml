@@ -57,8 +57,13 @@ jobs:
       - name: Terraform Format Check
         run: terraform fmt -check
 
+      - name: List files in terraform directory
+        run: |
+          cd terraform/storage
+          Get-ChildItem  # Ensure the file is in the directory
+
       - name: Terraform Init
-        run: terraform init -backend-config=terraform-backend.tfvars
+        run: terraform init --backend-config=terraform-backend.tfvars
         working-directory: terraform/storage
         env:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
