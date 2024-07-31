@@ -45,4 +45,3 @@ resource "azurerm_app_service" "appsvc" {
     "WEBSITE_RUN_FROM_PACKAGE" = "1"
   }
 }
-
