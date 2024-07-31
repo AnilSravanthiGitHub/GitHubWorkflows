@@ -57,11 +57,9 @@ jobs:
            
 
       - name: Terraform Plan
-        run:  terraform plan -out main.tfplan --var-file=../terraform/terraform.tfvars
+        run:  terraform plan --var-file=terraform.tfvars 
            
 
       - name: Terraform Apply
-        run: |
-            cd terraform
-            terraform apply --var-file=../terraform/terraform.tfvars -auto-approve
+        run:  terraform apply --var-file=terraform.tfvars -auto-approve
        
