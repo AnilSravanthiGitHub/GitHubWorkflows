@@ -27,7 +27,7 @@ jobs:
         mkdir -p copied_terraform
         cp -r terraform/* copied_terraform
 
-    - name: upload copyed_terraform
+    - name: upload copied_terraform
       uses: actions/upload-artifact@v3
       with:
         name: copied_terraform
