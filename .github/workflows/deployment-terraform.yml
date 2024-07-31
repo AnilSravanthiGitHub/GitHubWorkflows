@@ -57,7 +57,7 @@ jobs:
         
 
       - name: Terraform Plan
-        run: tterraform -chdir=terraform plan -var-file=terraform.tfvars
+        run: terraform -chdir=terraform plan -var-file=terraform.tfvars
         
         
 
