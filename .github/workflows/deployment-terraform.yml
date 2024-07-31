@@ -60,6 +60,6 @@ jobs:
         working-directory: terraform
 
       - name: Terraform Apply
-        run: terraform apply -var-file=terraform/main.tf -auto-approve
+        run: terraform apply -var-file=terraform/terraform.tfvars -auto-approve
         working-directory: terraform
       
