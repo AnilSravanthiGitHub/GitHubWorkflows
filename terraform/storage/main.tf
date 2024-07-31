@@ -38,15 +38,6 @@ resource "azurerm_storage_container" "container" {
   container_access_type = "private"
 }
 
-terraform{
-backend "azurerm" {
-        resource_group_name  = "rg-se-webapp-dev"
-        storage_account_name = "stterraformbackend"
-        container_name       = "terraform-state"
-        key                  = "terraform.tfstate"
-    }
-}
-
 resource "azurerm_service_plan" "asp" {
   name                = var.app_service_plan_name
   location            = azurerm_resource_group.rg.location
