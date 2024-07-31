@@ -56,9 +56,9 @@ jobs:
         run: terraform init
 
       - name: Terraform Plan
-        run: terraform plan -var-file=terraform/main.tf
+        run: terraform plan -chdir=terraform -var-file=terraform/terraform.tfvars
 
 
       - name: Terraform Apply
-        run: terraform -chdir=terraform apply -var-file=../terraform.tfvars -auto-approve
+        run: terraform apply -chdir=terraform -var-file=terraform/terraform.tfvars -auto-approve
       
