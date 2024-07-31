@@ -67,34 +67,48 @@ jobs:
       #       # Create blob container
       #       az storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOUNT_NAME
 
-      - name: Initialize and apply backend infrastructure
-        env:
-          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-        run: |
-          terraform init
-          terraform apply -auto-approve
+      - name: Initialize Terraform
+        run: terraform init
         working-directory: terraform
 
-      - name: Set backend configuration
-        id: get_backend_config
+      - name: Apply Initial Resources
+        run: terraform apply -auto-approve
+        working-directory: terraform
+
+      - name: Get Storage Account Key
+        id: get-key
         run: |
-          # echo "##[set-output name=storage_account_name;]$(terraform output -raw storage_account_name)"
-          # echo "##[set-output name=container_name;]$(terraform output -raw container_name)"
-          echo "##[set-output name=storage_account_key;]$(terraform output -raw storage_account_key)"
+          echo "::set-output name=key::$(az storage account keys list \
+            --resource-group rg-se-webapp-dev \
+            --account-name stterraformbackend \
+            --query '[0].value' \
+            --output tsv)"
+        env:
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Configure Backend
+        run: |
+          terraform init \
+            -backend-config="resource_group_name=rg-se-webapp-dev" \
+            -backend-config="storage_account_name=stterraformbackend" \
+            -backend-config="container_name=terraform-state" \
+            -backend-config="access_key=${{ steps.get-key.outputs.key }}" \
+            -backend-config="key=terraform.tfstate"
         working-directory: terraform
       
-      - name: Terraform Init
-        env:
-          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-        run: |
-          cd terraform
-          terraform init
+      
+      # - name: Terraform Init
+      #   env:
+      #     ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      #     ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      #     ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      #     ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      #   run: |
+      #     cd terraform
+      #     terraform init
 
       - name: List files in terraform directory
         run: |
