@@ -31,4 +31,3 @@ resource "azurerm_app_service" "app" {
   app_service_plan_id = azurerm_service_plan.asp.id
 }
 
-

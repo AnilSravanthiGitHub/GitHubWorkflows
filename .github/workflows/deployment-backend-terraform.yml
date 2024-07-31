@@ -58,12 +58,12 @@ jobs:
         run: terraform fmt -check      
 
       - name: Terraform Init
-        env:
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        run: terraform init --backend-config=terraform-backend.tfvars
+        # env:
+        #   AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        #   AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+        #   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        #   AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        run: terraform init -backend-config=terraform-backend.tfvars
         working-directory: terraform/storage
         
 
@@ -75,9 +75,9 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve
         working-directory: terraform/storage
-        env:
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        # env:
+        #   AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        #   AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+        #   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        #   AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
