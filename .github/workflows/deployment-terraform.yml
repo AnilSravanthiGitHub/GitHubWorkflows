@@ -60,7 +60,7 @@ jobs:
       - name: List files in terraform directory
         run: |
           cd terraform
-          ls -al  # Ensure the file is in the directory
+          Get-ChildItem  # Ensure the file is in the directory
   
       - name: Terraform Plan
         run: |
