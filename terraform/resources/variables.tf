@@ -3,12 +3,6 @@ variable "resource_group_name" {
   type        = string
   
 }
-
-variable "location" {
-  description = "Azure location"
-  type        = string
-  
-}
 variable "storage_account_name" {
   description = "Azure storage account name"
   type        = string
@@ -16,6 +10,11 @@ variable "storage_account_name" {
 }
 variable "container_name" {
   description = "Azure container name"
+  type        = string
+  
+}
+variable "key" {
+  description = "Azure location"
   type        = string
   
 }
