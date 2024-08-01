@@ -23,10 +23,8 @@ jobs:
       - run: echo "Exposing env vars"
   
   build-workflow: 
-    needs: vars
     uses: ./.github/workflows/build-terraform.yml   
-    with:
-      user: ${{ needs.vars.outputs.user }}
+
 
   # deploy-backendworkflow-dev:  
   #   permissions:
