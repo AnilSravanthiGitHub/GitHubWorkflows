@@ -8,8 +8,8 @@ terraform {
   
 }
 provider "azurerm" {
-  subscription_id = ${var.AZURE_SUBSCRIPTION_ID}
-  tenant_id       = ${var.AZURE_TENANT_ID}
+  subscription_id = "c9cd8f1e-f9da-428b-bc89-f355b3476cd1"
+  tenant_id       = "5845c03f-fab4-45d5-9d5c-e05c96103e19"
   use_oidc = true
   features {}
   skip_provider_registration = "true"
