@@ -41,7 +41,7 @@ jobs:
         with:
           ref: ${{ inputs.ref }}
       - run: echo ${{ secrets.AZURE_CLIENT_ID }}
-      - run: echo $RESOURCE_GROUP_NAME
+      - run: echo ${{ inputs.resource_group_name }}
   
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
