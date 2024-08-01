@@ -90,11 +90,12 @@ jobs:
           echo 'container_name = "${{ inputs.container_name }}"' >> terraform/resources/backend-config.tfvars
           echo 'key = "terraform.tfstate"' >> terraform/resources/backend-config.tfvars
 
-      - name: update terraform.tfvars
-        run: |    
-          echo 'app_service_plan_name = ${{ inputs.app_service_plan_name }}' >> terraform/resources/terraform.tfvars
-          echo 'app_service_name = ${{ inputs.app_service_name }}' >> terraform/resources/terraform.tfvars
-          echo 'app_insights_name = ${{ inputs.app_insights_name }}' >> terraform/resources/terraform.tfvars
+      # - name: update terraform.tfvars
+      #   run: |   
+      #     echo '-var="resource_group_name=${{ inputs.resource_group_name }}" -var="storage_account_name=${{ inputs.storage_account_name }}" -var="container_name=${{ inputs.container_name }}"'    
+      #     echo 'app_service_plan_name = ${{ inputs.app_service_plan_name }}' >> terraform/resources/terraform.tfvars
+      #     echo 'app_service_name = ${{ inputs.app_service_name }}' >> terraform/resources/terraform.tfvars
+      #     echo 'app_insights_name = ${{ inputs.app_insights_name }}' >> terraform/resources/terraform.tfvars
       
       - name: Terraform Init
         run: terraform init -backend-config=backend-config.tfvars
@@ -110,7 +111,7 @@ jobs:
         working-directory: terraform/resources
 
       - name: Terraform Plan
-        run: terraform plan -var-file="terraform.tfvars"
+        run: terraform plan -var="app_service_plan_name=${{ inputs.app_service_plan_name }}" -var="app_service_name=${{ inputs.app_service_name }}" -var="app_insights_name=${{ inputs.app_insights_name }}" -var-file="terraform.tfvars"
         working-directory: terraform/resources
         env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
