@@ -32,7 +32,7 @@ variable "app_service_name" {
 }
 variable "app_service_plan_tier" {
   description = "The Size of the App servcie plan - Basic, Standard, Premium"
- type        = string
+  type        = string
 }
  
 variable "app_service_plan_sku_size" {
