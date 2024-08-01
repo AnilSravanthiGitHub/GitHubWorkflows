@@ -15,9 +15,12 @@ jobs:
   vars:
     runs-on: ubuntu-22.04
     outputs:
-      user: ${{ env.RESOURCE_GROUP_NAME }}
+      resource_group_name: ${{ env.RESOURCE_GROUP_NAME }}
+      location: ${{ env.LOCATION }}
+      storage_account_name: ${{ env.STORAGE_ACCOUNT_NAME }}
+      container_name: ${{ env.CONTAINER_NAME }}
     steps:
-      - run: echo "Exposing env vars ${{ vars.outputs.user }}"
+      - run: echo "Exposing env vars"
   
   build-workflow: 
     needs: vars
@@ -43,11 +46,11 @@ jobs:
   #     container_name: ${{ env.CONTAINER_NAME }}
   #   secrets: inherit # pass all secrets
 
-  deploy-workflow-dev:  
+  deploy-workflow-dev:    
     permissions:
       id-token: write
       contents: read
-    needs: build-workflow
+    needs: [vars, build-workflow]
     strategy:
       matrix:
         target: [dev]   
@@ -55,10 +58,10 @@ jobs:
     with:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
-      resource_group_name: "$RESOURCE_GROUP_NAME"
-      location: $LOCATION
-      storage_account_name: $STORAGE_ACCOUNT_NAME
-      container_name: $CONTAINER_NAME
+      resource_group_name: ${{ needs.vars.outputs.resource_group_name }}
+      location: ${{ needs.vars.outputs.location }}
+      storage_account_name: ${{ needs.vars.outputs.storage_account_name }}
+      container_name: ${{ needs.vars.outputs.container_name }}
     secrets: inherit # pass all secrets
 
 
@@ -74,10 +77,10 @@ jobs:
     with:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
-      resource_group_name: "$RESOURCE_GROUP_NAME"
-      location: $LOCATION
-      storage_account_name: $STORAGE_ACCOUNT_NAME
-      container_name: $CONTAINER_NAME
+      resource_group_name: ${{ needs.vars.outputs.resource_group_name }}
+      location: ${{ needs.vars.outputs.location }}
+      storage_account_name: ${{ needs.vars.outputs.storage_account_name }}
+      container_name: ${{ needs.vars.outputs.container_name }}
     secrets: inherit # pass all secrets
 
     
