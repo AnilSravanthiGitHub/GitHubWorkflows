@@ -83,12 +83,15 @@ jobs:
             # Create blob container
             az storage container create --name ${{ inputs.container_name }} --account-name ${{ inputs.storage_account_name }}
       
-      - name: Create backend-config.tfvars
+      - name: update backend-config.tfvars
         run: |
           echo 'resource_group_name = "${{ inputs.resource_group_name }}"' > terraform/resources/backend-config.tfvars
           echo 'storage_account_name = "${{ inputs.storage_account_name }}"' >> terraform/resources/backend-config.tfvars
           echo 'container_name = "${{ inputs.container_name }}"' >> terraform/resources/backend-config.tfvars
           echo 'key = "terraform.tfstate"' >> terraform/resources/backend-config.tfvars
+
+      - name: update terraform.tfvars
+        run: |    
           echo 'app_service_plan_name = ${{ inputs.app_service_plan_name }}' >> terraform/resources/terraform.tfvars
           echo 'app_service_name = ${{ inputs.app_service_name }}' >> terraform/resources/terraform.tfvars
           echo 'app_insights_name = ${{ inputs.app_insights_name }}' >> terraform/resources/terraform.tfvars
