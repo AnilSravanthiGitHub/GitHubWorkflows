@@ -86,15 +86,15 @@ jobs:
       
       - name: Terraform Init
         run: terraform init -backend-config=terraform/resources/backend-config.tfvars
-        working-directory: terraform
+        working-directory: terraform/resources
 
       - name: Terraform Plan
         run: terraform plan -var-file=terraform/resources/variables.tf
-        working-directory: terraform
+        working-directory: terraform/resources
 
       - name: Terraform Apply
         run: terraform apply -auto-approve -var-file=terraform/resources/variables.tf
-        working-directory: terraform
+        working-directory: terraform/resources
 
       # - name: Terraform Plan
       #   run: terraform plan -var="resource_group_name=${{ inputs.resource_group_name }}" -var="storage_account_name=${{ inputs.storage_account_name }}" -var="container_name=${{ inputs.container_name }}"
