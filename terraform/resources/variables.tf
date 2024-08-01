@@ -14,7 +14,7 @@ variable "container_name" {
   
 }
 variable "key" {
-  description = "Azure location"
+  description = "Storage account key"
   type        = string
   
 }
