@@ -38,7 +38,7 @@ resource "azurerm_windows_web_app" "as" {
   name                = var.app_service_name
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
-  app_service_plan_id = azurerm_service_plan.asp.id
+  service_plan_id     = azurerm_service_plan.asp.id
   site_config {
     windows_fx_version = "DOTNETCORE|3.1"
   }
