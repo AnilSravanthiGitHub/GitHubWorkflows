@@ -111,7 +111,8 @@ jobs:
         working-directory: terraform/resources
 
       - name: Terraform Plan
-        run: terraform plan -var="app_service_plan_name=${{ inputs.app_service_plan_name }}" -var="app_service_name=${{ inputs.app_service_name }}" -var="app_insights_name=${{ inputs.app_insights_name }}" -var-file="terraform.tfvars"
+        run: terraform plan 
+            -var="resource_group_name=${{ inputs.resource_group_name }}" -var="storage_account_name=${{ inputs.storage_account_name }}" -var="container_name=${{ inputs.container_name }}" -var="key=${{ inputs.key }}" -var="app_service_plan_name=${{ inputs.app_service_plan_name }}" -var="app_service_name=${{ inputs.app_service_name }}" -var="app_insights_name=${{ inputs.app_insights_name }}" -var-file="terraform.tfvars"
         working-directory: terraform/resources
         env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
