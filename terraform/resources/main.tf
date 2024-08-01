@@ -34,12 +34,14 @@ resource "azurerm_application_insights" "ai" {
 
 }
 
-resource "azurerm_app_service" "as" {
+resource "azurerm_windows_web_app" "as" {
   name                = var.app_service_name
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
   app_service_plan_id = azurerm_service_plan.asp.id
-
+  site_config {
+    windows_fx_version = "DOTNETCORE|3.1"
+  }
   app_settings = {
     "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.ai.instrumentation_key
   }
