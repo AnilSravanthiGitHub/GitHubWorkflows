@@ -89,11 +89,11 @@ jobs:
         working-directory: terraform/resources
 
       - name: Terraform Plan
-        run: terraform plan -var-file=terraform/resources/variables.tf
+        run: terraform plan -var-file=variables.tf
         working-directory: terraform/resources
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve -var-file=terraform/resources/variables.tf
+        run: terraform apply -auto-approve -var-file=variables.tf
         working-directory: terraform/resources
 
       # - name: Terraform Plan
