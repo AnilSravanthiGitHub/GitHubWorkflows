@@ -3,8 +3,7 @@ name: Main Terraform
 on:
   push:
     branches: [ "main" ]
-    paths: ["terraform/resources/**"]
-  pull_request:
+    paths: ["terraform/resources/**"]  
 
 env:
   RESOURCE_GROUP_NAME: 'rg-se-webapp-dev'
@@ -13,8 +12,18 @@ env:
   CONTAINER_NAME: 'terraform-state' # CONTAINER_NAME
 
 jobs:
+  vars:
+    runs-on: ubuntu-22.04
+    outputs:
+      user: ${{ env.RESOURCE_GROUP_NAME }}
+    steps:
+      - run: echo "Exposing env vars ${{ vars.outputs.user }}"
+  
   build-workflow: 
+    needs: vars
     uses: ./.github/workflows/build-terraform.yml   
+    with:
+      user: ${{ needs.vars.outputs.user }}
 
   # deploy-backendworkflow-dev:  
   #   permissions:
