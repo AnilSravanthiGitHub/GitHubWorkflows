@@ -32,7 +32,7 @@ on:
 jobs:
    deploy:
     name: Azure Deploy
-    runs-on: windows-latest
+    runs-on: linux
     environment: ${{ inputs.environment }}
 
     steps:
