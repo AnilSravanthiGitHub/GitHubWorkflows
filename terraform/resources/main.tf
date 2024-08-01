@@ -55,5 +55,4 @@ resource "azurerm_app_service" "as" {
   app_settings = {
     "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.ai.instrumentation_key
   }
-
 }
