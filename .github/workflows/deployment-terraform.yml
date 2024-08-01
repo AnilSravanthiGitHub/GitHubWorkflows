@@ -7,13 +7,17 @@ permissions:
 on: 
   workflow_call:  
     inputs:    
-      environment:
-         description: The name of the environment to deploy to
-         required: true
+      environment:         
          type: string 
       ref:
-         description: The name of the ref to to deploy from 
-         required: true
+         type: string
+      resource_group_name:
+         type: string
+      location:
+         type: string
+      storage_account_name:
+         type: string
+      container_name:
          type: string
     secrets:
       AZURE_CLIENT_ID:
@@ -53,38 +57,38 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
 
-      # - name: Azure CLI script
-      #   uses: azure/cli@v2
-      #   with:
-      #     azcliversion: latest
-      #     inlineScript: |
-      #       # Create resource group
-      #       az group create --name $RESOURCE_GROUP_NAME --location eastus
+      - name: Azure CLI script
+        uses: azure/cli@v2
+        with:
+          azcliversion: latest
+          inlineScript: |
+            # Create resource group
+            az group create --name $RESOURCE_GROUP_NAME --location $LOCATION
 
-      #       # Create storage account
-      #       az storage account create --resource-group $RESOURCE_GROUP_NAME --name $STORAGE_ACCOUNT_NAME --sku Standard_LRS --encryption-services blob
+            # Create storage account
+            az storage account create --resource-group $RESOURCE_GROUP_NAME --name $STORAGE_ACCOUNT_NAME --sku Standard_LRS --encryption-services blob
 
-      #       # Create blob container
-      #       az storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOUNT_NAME
+            # Create blob container
+            az storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOUNT_NAME
 
-      - name: Initialize Terraform
-        env:
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        run: |
-           cd terraform/resources
-           terraform init
+      # - name: Initialize Terraform
+      #   env:
+      #     AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      #     AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      #     AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      #     AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      #   run: |
+      #      cd terraform/resources
+      #      terraform init
 
-      - name: Apply Terraform Configuration
-        run: terraform apply -auto-approve
-        working-directory: terraform/resources
-        env:
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      # - name: Apply Terraform Configuration
+      #   run: terraform apply -auto-approve
+      #   working-directory: terraform/resources
+      #   env:
+      #     AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      #     AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      #     AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      #     AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       # - name: Get Storage Account Key
       #   id: get-key
@@ -121,20 +125,20 @@ jobs:
       #     cd terraform
       #     terraform init
 
-      - name: List files in terraform directory
-        run: |
-          cd terraform/resources
-          Get-ChildItem  # Ensure the file is in the directory
+      # - name: List files in terraform directory
+      #   run: |
+      #     cd terraform/resources
+      #     Get-ChildItem  # Ensure the file is in the directory
   
-      - name: Terraform Plan
-        run: |
-          cd terraform/resources
-          terraform plan --var-file=terraform.tfvars -out=tfplan
+      # - name: Terraform Plan
+      #   run: |
+      #     cd terraform/resources
+      #     terraform plan --var-file=terraform.tfvars -out=tfplan
 
-      - name: Terraform Apply
-        run: |
-          cd terraform/resources
-          terraform apply -auto-approve tfplan
+      # - name: Terraform Apply
+      #   run: |
+      #     cd terraform/resources
+      #     terraform apply -auto-approve tfplan
 
       # - name: Save Terraform state
       #   uses: actions/upload-artifact@v2

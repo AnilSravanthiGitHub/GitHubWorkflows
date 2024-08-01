@@ -22,4 +22,3 @@ variable "app_service_name" {
   type        = string
   
 }
-

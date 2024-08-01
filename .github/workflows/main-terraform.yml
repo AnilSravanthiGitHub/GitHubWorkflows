@@ -6,12 +6,11 @@ on:
     paths: ["terraform/resources/**"]
   pull_request:
 
-# env:
-#   DOTNET_VERSION: '8.0.x'
-#   AZURE_WEBAPP_NAME: 'WorkFlow'    # set this to the name of your Azure Web App
-#   AZURE_WEBAPP_PACKAGE_PATH: '.'     # set this to the path to your web app project, defaults to the repository roo  
-#   ArtifactName: 'WorkFlow' 
-
+env:
+  RESOURCE_GROUP_NAME: 'rg-se-webapp-dev'
+  LOCATION: 'westeurope'
+  STORAGE_ACCOUNT_NAME: 'stterraformbackend'
+  CONTAINER_NAME: 'terraform-state' # CONTAINER_NAME
 
 jobs:
   build-workflow: 
@@ -29,6 +28,10 @@ jobs:
     with:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
+      resource_group_name: ${{ env.RESOURCE_GROUP_NAME }}
+      location: ${{ env.LOCATION }}
+      storage_account_name: ${{ env.STORAGE_ACCOUNT_NAME }}
+      container_name: ${{ env.CONTAINER_NAME }}
     secrets: inherit # pass all secrets
 
   deploy-workflow-dev:  
