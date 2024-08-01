@@ -76,15 +76,29 @@ jobs:
 
             # Create blob container
             az storage container create --name ${{ inputs.container_name }} --account-name ${{ inputs.storage_account_name }}
-
-      - name: Terraform Init
+      
+      - name: Create backend-config.tfvars
         run: |
-            cd terraform/resources
-            terraform init
+          echo 'resource_group_name = "${{ secrets.RESOURCE_GROUP_NAME }}"' > terraform/resources/backend-config.tfvars
+          echo 'storage_account_name = "${{ secrets.STORAGE_ACCOUNT_NAME }}"' >> terraform/resources/backend-config.tfvars
+          echo 'container_name = "${{ secrets.CONTAINER_NAME }}"' >> terraform/resources/backend-config.tfvars
+          echo 'key = "terraform.tfstate"' >> terraform/resources/backend-config.tfvars
+      
+      - name: Terraform Init
+        run: terraform init -backend-config=terraform/resources/backend-config.tfvars
+        working-directory: terraform
 
       - name: Terraform Plan
-        run: terraform plan -var="resource_group_name=${{ inputs.resource_group_name }}" -var="storage_account_name=${{ inputs.storage_account_name }}" -var="container_name=${{ inputs.container_name }}"
+        run: terraform plan -var-file=terraform/resources/terraform.tfvars
         working-directory: terraform
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -var-file=terraform/resources/terraform.tfvars
+        working-directory: terraform
+
+      # - name: Terraform Plan
+      #   run: terraform plan -var="resource_group_name=${{ inputs.resource_group_name }}" -var="storage_account_name=${{ inputs.storage_account_name }}" -var="container_name=${{ inputs.container_name }}"
+      #   working-directory: terraform
 
       # - name: Initialize Terraform
       #   run: |
