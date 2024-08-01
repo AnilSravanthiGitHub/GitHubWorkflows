@@ -1,24 +1,3 @@
-variable "resource_group_name" {
-  description = "Name of the resource group"
-  type        = string
-  
-}
-variable "storage_account_name" {
-  description = "Azure storage account name"
-  type        = string
-  
-}
-variable "container_name" {
-  description = "Azure container name"
-  type        = string
-  
-}
-variable "key" {
-  description = "Azure location"
-  type        = string
-  
-}
-
 variable "app_service_plan_name" {
   description = "Name of the App Service plan"
   type        = string

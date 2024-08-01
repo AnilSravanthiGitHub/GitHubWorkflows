@@ -10,7 +10,7 @@ env:
   LOCATION: 'westeurope'
   STORAGE_ACCOUNT_NAME: 'stseterraformd'
   CONTAINER_NAME: 'terraform-state' # CONTAINER_NAME
-  APP_SERVICE_PLAN_NAME: 'asp-se-webapp'
+  APP_SERVICE_PLAN_NAME: 'asp-se-webapp-'
   APP_SERVICE_NAME: 'app-se-webapp-'
   APP_INSIGHTS_NAME: 'appi-se-webapp-'
   

@@ -89,20 +89,20 @@ jobs:
           echo 'storage_account_name = "${{ inputs.storage_account_name }}"' >> terraform/resources/backend-config.tfvars
           echo 'container_name = "${{ inputs.container_name }}"' >> terraform/resources/backend-config.tfvars
           echo 'key = "terraform.tfstate"' >> terraform/resources/backend-config.tfvars
-          echo 'app_service_plan_name = ${{ inputs.app_service_plan_name }}' >> terraform/resources/backend-config.tfvars
-          echo 'app_service_name = ${{ inputs.app_service_name }}' >> terraform/resources/backend-config.tfvars
-          echo 'app_insights_name = ${{ inputs.app_insights_name }}' >> terraform/resources/backend-config.tfvars
+          echo 'app_service_plan_name = ${{ inputs.app_service_plan_name }}' >> terraform/resources/terraform.tfvars
+          echo 'app_service_name = ${{ inputs.app_service_name }}' >> terraform/resources/terraform.tfvars
+          echo 'app_insights_name = ${{ inputs.app_insights_name }}' >> terraform/resources/terraform.tfvars
       
       - name: Terraform Init
         run: terraform init -backend-config=backend-config.tfvars
         working-directory: terraform/resources
 
       - name: Terraform Plan
-        run: terraform plan -var-file=backend-config.tfvars
+        run: terraform plan -var-file="terraform.tfvars"
         working-directory: terraform/resources
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve -var-file=backend-config.tfvars
+        run: terraform apply -auto-approve -var-file="terraform.tfvars"
         working-directory: terraform/resources
 
       # - name: Terraform Plan
