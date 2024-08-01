@@ -6,9 +6,9 @@ on:
     paths: ["terraform/resources/**"]  
 
 env:
-  RESOURCE_GROUP_NAME: 'rg-se-webapp-dev'
+  RESOURCE_GROUP_NAME: 'rg-se-terrraform-dev'
   LOCATION: 'westeurope'
-  STORAGE_ACCOUNT_NAME: 'stterraformbackend'
+  STORAGE_ACCOUNT_NAME: 'stseterraformdev'
   CONTAINER_NAME: 'terraform-state' # CONTAINER_NAME
 
 jobs:
