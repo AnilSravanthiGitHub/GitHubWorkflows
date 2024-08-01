@@ -19,6 +19,14 @@ on:
          type: string
       container_name:
          type: string
+      app_service_plan_name:
+         type: string
+      app_service_name:
+         type: string
+      app_insights_name:
+         type: string
+
+
     secrets:
       AZURE_CLIENT_ID:
         required: true
@@ -44,8 +52,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ inputs.ref }}
-      - run: echo ${{ secrets.AZURE_CLIENT_ID }}
-      - run: echo ${{ inputs.resource_group_name }}
   
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
@@ -83,9 +89,9 @@ jobs:
           echo 'storage_account_name = "${{ inputs.storage_account_name }}"' >> terraform/resources/backend-config.tfvars
           echo 'container_name = "${{ inputs.container_name }}"' >> terraform/resources/backend-config.tfvars
           echo 'key = "terraform.tfstate"' >> terraform/resources/backend-config.tfvars
-          echo 'app_service_plan_name = "asp-se-webapp-dev"' >> terraform/resources/backend-config.tfvars
-          echo 'app_service_name = "app-se-webapp-dev"' >> terraform/resources/backend-config.tfvars
-          echo 'app_insights_name = "appi-se-webapp-dev"' >> terraform/resources/backend-config.tfvars
+          echo 'app_service_plan_name = ${{ inputs.app_service_plan_name }}' >> terraform/resources/backend-config.tfvars
+          echo 'app_service_name = ${{ inputs.app_service_name }}' >> terraform/resources/backend-config.tfvars
+          echo 'app_insights_name = ${{ inputs.app_insights_name }}' >> terraform/resources/backend-config.tfvars
       
       - name: Terraform Init
         run: terraform init -backend-config=backend-config.tfvars

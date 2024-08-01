@@ -6,11 +6,14 @@ on:
     paths: ["terraform/resources/**"]  
 
 env:
-  RESOURCE_GROUP_NAME: 'rg-se-terrraform-dev'
+  RESOURCE_GROUP_NAME: 'rg-se-terrraform-'
   LOCATION: 'westeurope'
-  STORAGE_ACCOUNT_NAME: 'stseterraformdev'
+  STORAGE_ACCOUNT_NAME: 'stseterraformd'
   CONTAINER_NAME: 'terraform-state' # CONTAINER_NAME
-
+  APP_SERVICE_PLAN_NAME: 'asp-se-webapp'
+  APP_SERVICE_NAME: 'app-se-webapp-'
+  APP_INSIGHTS_NAME: 'appi-se-webapp-'
+  
 jobs:
   vars:
     runs-on: ubuntu-22.04
@@ -19,6 +22,9 @@ jobs:
       location: ${{ env.LOCATION }}
       storage_account_name: ${{ env.STORAGE_ACCOUNT_NAME }}
       container_name: ${{ env.CONTAINER_NAME }}
+      app_service_plan_name: ${{ env.APP_SERVICE_PLAN_NAME }}
+      app_service_name: ${{ env.APP_SERVICE_NAME }}
+      app_insights_name: ${{ env.APP_INSIGHTS_NAME }}
     steps:
       - run: echo "Exposing env vars"
   
@@ -56,10 +62,13 @@ jobs:
     with:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
-      resource_group_name: ${{ needs.vars.outputs.resource_group_name }}
-      location: ${{ needs.vars.outputs.location }}
-      storage_account_name: ${{ needs.vars.outputs.storage_account_name }}
-      container_name: ${{ needs.vars.outputs.container_name }}
+      resource_group_name: '${{ needs.vars.outputs.resource_group_name }}${{ matrix.target }}'
+      location: '${{ needs.vars.outputs.location }}'
+      storage_account_name: '${{ needs.vars.outputs.storage_account_name }}${{ matrix.target }}'
+      container_name: '${{ needs.vars.outputs.container_name }}${{ matrix.target }}'
+      app_service_plan_name: '${{ needs.vars.outputs.app_service_plan_name }}${{ matrix.target }}'
+      app_service_name: '${{ needs.vars.outputs.app_service_name }}${{ matrix.target }}'
+      app_insights_name: '${{ needs.vars.outputs.app_insights_name }}${{ matrix.target }}'
     secrets: inherit # pass all secrets
 
 
@@ -75,10 +84,13 @@ jobs:
     with:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
-      resource_group_name: ${{ needs.vars.outputs.resource_group_name }}
-      location: ${{ needs.vars.outputs.location }}
-      storage_account_name: ${{ needs.vars.outputs.storage_account_name }}
-      container_name: ${{ needs.vars.outputs.container_name }}
+      resource_group_name: '${{ needs.vars.outputs.resource_group_name }}${{ matrix.target }}'
+      location: '${{ needs.vars.outputs.location }}'
+      storage_account_name: '${{ needs.vars.outputs.storage_account_name }}${{ matrix.target }}'
+      container_name: '${{ needs.vars.outputs.container_name }}${{ matrix.target }}'
+      app_service_plan_name: '${{ needs.vars.outputs.app_service_plan_name }}${{ matrix.target }}'
+      app_service_name: '${{ needs.vars.outputs.app_service_name }}${{ matrix.target }}'
+      app_insights_name: '${{ needs.vars.outputs.app_insights_name }}${{ matrix.target }}'
     secrets: inherit # pass all secrets
 
     
