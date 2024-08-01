@@ -67,7 +67,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    needs: deploy-workflow-dev
+    needs: [vars, deploy-workflow-dev]
     strategy:
       matrix:
         target: [Test]
