@@ -1,13 +1,17 @@
 name: Build  Terraform
 
 on: 
-  workflow_call:  
+  workflow_call: 
+   inputs:  
+     user:
+       type: string
     
 jobs:
    build:    
     runs-on: windows-latest
 
     steps:
+    - run: echo ${{ inputs.user }}
     - name: Checkout the code
       uses: actions/checkout@v3
 
