@@ -15,8 +15,8 @@ on:
          description: The name of the ref to to deploy from 
          required: true
          type: string
-      dotnet_version:
-         description: The version of .NET Core to use
+      web-package-path:
+         description: The web package path
          required: true
          type: string        
       artifact_name:
@@ -25,10 +25,6 @@ on:
          type: string
       webapp_name:
          description: The name of the webapp to deploy
-         required: true
-         type: string
-      location:
-         description: The location to deploy to
          required: true
          type: string
     secrets:
@@ -48,16 +44,11 @@ jobs:
     environment: ${{ inputs.environment }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
         with:
-          ref: ${{ inputs.ref }}
-
-      - name: Download artifact
-        uses: actions/download-artifact@v2
-        with:
-            name: build-artifact
-            path: ${{ inputs.artifact_name }}
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/${{ inputs.artifact_name }}
 
       - name: Azure login
         id: login
@@ -68,10 +59,9 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
      
 
-
       - name: Deploy to Azure Web App
+        id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-            app-name: ${{ inputs.webapp_name }}
-            package: ${{ inputs.artifact_name }}
-            slot-name: production
+          app-name: ${{ inputs.webapp_name }}
+          package: ${{ inputs.web-package-path }}

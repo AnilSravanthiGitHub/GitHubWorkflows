@@ -31,17 +31,15 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
 
-    - name: Archive production artifacts
-      run: |
-        mkdir -p ${{ inputs.artifact_name }}
-        cp -r build/* ${{ inputs.artifact_name }}/
-      shell: bash
+    - name: dotnet publish
+      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/${{ inputs.artifact_name }}
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v3
       with:
-        name: build-artifact
-        path: ${{ inputs.artifact_name }}
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/${{ inputs.artifact_name }}
+
 
     # - name: Publish
     #   run: dotnet publish -c Release -o ${{ github.workspace }}/${{ inputs.artifact_name }}
