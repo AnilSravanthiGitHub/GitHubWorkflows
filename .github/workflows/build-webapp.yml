@@ -7,6 +7,10 @@ on:
          description: The version of .NET Core to use
          required: true
          type: string
+      artifact_name:
+         description: The name of the artifact to use
+         required: true
+         type: string
 
 jobs:
    build:
@@ -28,7 +32,7 @@ jobs:
       run: dotnet build --configuration Release --no-restore
 
     - name: Publish
-      run: dotnet publish -c Release -o ${{ github.workspace }}/publish_output
+      run: dotnet publish -c Release -o ${{ github.workspace }}/${{ inputs.artifact_name }}
 
     outputs:
-      publish_path: ${{ github.workspace }}/publish_output
+      publish_path: ${{ github.workspace }}/${{ inputs.artifact_name }}

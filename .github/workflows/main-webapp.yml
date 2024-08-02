@@ -8,22 +8,34 @@ on:
 
 env:
   DOTNET_VERSION: '8.0.x'
-  AZURE_WEBAPP_NAME: 'WorkFlow'    # set this to the name of your Azure Web App
-  AZURE_WEBAPP_PACKAGE_PATH: '.'     # set this to the path to your web app project, defaults to the repository roo  
+  AZURE_WEBAPP_NAME: 'app-se-webapp-'    # set this to the name of your Azure Web App
   ArtifactName: 'WorkFlow' 
+  location: 'westeurope'
 
 
 jobs:
+  vars:
+    runs-on: ubuntu-22.04
+    outputs:
+      dontnet_version: ${{ env.DOTNET_VERSION }}
+      location: ${{ env.LOCATION }}
+      azure_webapp_name: ${{ env.AZURE_WEBAPP_NAME }}
+      artifact_name : ${{ env.ArtifactName }}      
+    steps:
+      - run: echo "Exposing env vars"
+  
   build-workflow: 
+    needs: [vars]
     uses: ./.github/workflows/build-dotnet.yml
     with:
-      dotnet_version: '8.0.x'
+      dotnet_version: '${{ needs.vars.outputs.dontnet_version }}'
+      artifact_name: '${{ needs.vars.outputs.artifact_name }}'
 
   deploy-workflow-dev:
     permissions:
       id-token: write
       contents: read
-    needs: build-workflow
+    needs: [vars, build-workflow]
     strategy:
       matrix:
         target: [dev]   
@@ -31,7 +43,10 @@ jobs:
     with:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
-      dotnet_version: '8.0.x'
+      dotnet_version: '${{ needs.vars.outputs.dontnet_version }}'
+      artifact_name: '${{ needs.vars.outputs.artifact_name }}'
+      webapp_name: '${{ needs.vars.outputs.azure_webapp_name }}${{ matrix.target }}'
+      location: '${{ needs.vars.outputs.location }}'
     secrets: inherit # pass all secrets
 
 

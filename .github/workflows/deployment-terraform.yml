@@ -117,6 +117,10 @@ jobs:
           app_service_plan_name : ${{ inputs.app_service_plan_name }}
           app_service_name : ${{ inputs.app_service_name }}
           app_insights_name : ${{ inputs.app_insights_name }}
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         run: terraform plan -var-file="terraform.tfvars"
         working-directory: terraform/resources
         # env:
@@ -132,6 +136,10 @@ jobs:
           app_service_plan_name : ${{ inputs.app_service_plan_name }}
           app_service_name : ${{ inputs.app_service_name }}
           app_insights_name : ${{ inputs.app_insights_name }}
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         run: terraform apply -auto-approve -var-file="terraform.tfvars"
         working-directory: terraform/resources
         # env:
