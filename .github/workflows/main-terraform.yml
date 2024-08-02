@@ -8,7 +8,7 @@ on:
 env:
   RESOURCE_GROUP_NAME: 'rg-se-terrraform-'
   LOCATION: 'westeurope'
-  STORAGE_ACCOUNT_NAME: 'stseterraformd'
+  STORAGE_ACCOUNT_NAME: 'stseterraform'
   CONTAINER_NAME: 'terraform-state' # CONTAINER_NAME
   APP_SERVICE_PLAN_NAME: 'asp-se-webapp-'
   APP_SERVICE_NAME: 'app-se-webapp-'
