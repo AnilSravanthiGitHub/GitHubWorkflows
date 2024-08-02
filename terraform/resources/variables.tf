@@ -42,10 +42,10 @@ variable "app_insights_name" {
 variable "app_service_plan_tier" {
   description = "The Size of the App servcie plan - Basic, Standard, Premium"
   type        = string
-  default     = ""
+  default     = "Standard"
 } 
 variable "app_service_plan_sku_size" {
   description = "The Service Tier S0, S1, S2, S3, P1, P2, P4, P6, P11 and ElasticPool"
   type        = string
-  default     = ""
+  default     = "S1"
 }
