@@ -72,25 +72,25 @@ jobs:
     secrets: inherit # pass all secrets
 
 
-  deploy-workflow-Test:
-    permissions:
-      id-token: write
-      contents: read
-    needs: [vars, deploy-workflow-dev]
-    strategy:
-      matrix:
-        target: [Test]
-    uses: ./.github/workflows/deployment-terraform.yml
-    with:
-      environment: ${{ matrix.target }}
-      ref: '${{ github.ref }}'
-      resource_group_name: '${{ needs.vars.outputs.resource_group_name }}${{ matrix.target }}'
-      location: '${{ needs.vars.outputs.location }}'
-      storage_account_name: '${{ needs.vars.outputs.storage_account_name }}${{ matrix.target }}'
-      container_name: '${{ needs.vars.outputs.container_name }}${{ matrix.target }}'
-      app_service_plan_name: '${{ needs.vars.outputs.app_service_plan_name }}${{ matrix.target }}'
-      app_service_name: '${{ needs.vars.outputs.app_service_name }}${{ matrix.target }}'
-      app_insights_name: '${{ needs.vars.outputs.app_insights_name }}${{ matrix.target }}'
-    secrets: inherit # pass all secrets
+  # deploy-workflow-Test:
+  #   permissions:
+  #     id-token: write
+  #     contents: read
+  #   needs: [vars, deploy-workflow-dev]
+  #   strategy:
+  #     matrix:
+  #       target: [Test]
+  #   uses: ./.github/workflows/deployment-terraform.yml
+  #   with:
+  #     environment: ${{ matrix.target }}
+  #     ref: '${{ github.ref }}'
+  #     resource_group_name: '${{ needs.vars.outputs.resource_group_name }}${{ matrix.target }}'
+  #     location: '${{ needs.vars.outputs.location }}'
+  #     storage_account_name: '${{ needs.vars.outputs.storage_account_name }}${{ matrix.target }}'
+  #     container_name: '${{ needs.vars.outputs.container_name }}${{ matrix.target }}'
+  #     app_service_plan_name: '${{ needs.vars.outputs.app_service_plan_name }}${{ matrix.target }}'
+  #     app_service_name: '${{ needs.vars.outputs.app_service_name }}${{ matrix.target }}'
+  #     app_insights_name: '${{ needs.vars.outputs.app_insights_name }}${{ matrix.target }}'
+  #   secrets: inherit # pass all secrets
 
     
