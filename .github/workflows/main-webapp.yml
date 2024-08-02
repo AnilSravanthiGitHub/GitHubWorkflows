@@ -3,7 +3,7 @@ name: Main Web App
 on:
   push:
     branches: [ "main" ]    
-    paths: ["./GitHubActionsPractice/**"]
+    paths: ["GitHubActionsPractice/**"]
   pull_request:
 
 env:
