@@ -131,12 +131,6 @@ jobs:
         run: | 
          terraform apply -auto-approve -var-file="terraform.tfvars"
         working-directory: terraform/resources
-        
-
-      # - name: Terraform Plan
-      #   run: terraform plan -var="resource_group_name=${{ inputs.resource_group_name }}" -var="storage_account_name=${{ inputs.storage_account_name }}" -var="container_name=${{ inputs.container_name }}"
-      #   working-directory: terraform
-
       
 
       # - name: Get Storage Account Key
