@@ -118,7 +118,8 @@ jobs:
           ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         run: | 
-         terraform plan -var="resource_group_name=${{ inputs.resource_group_name }}" -var="app_service_plan_name=${{ inputs.app_service_plan_name }}" -var="app_service_name=${{ inputs.app_service_name }}" -var="app_insights_name=${{ inputs.app_insights_name }}" -var-file="terraform.tfvars"
+         terraform plan -var="resource_group_name=${{ inputs.resource_group_name }}" -var="app_service_plan_name=${{ inputs.app_service_plan_name }}" -var="app_service_name=${{ inputs.app_service_name }}" -var="app_insights_name=${{ inputs.app_insights_name }}" 
+         terraform plan -var-file="terraform.tfvars"
         working-directory: terraform/resources
         
 
