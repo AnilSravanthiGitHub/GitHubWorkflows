@@ -50,3 +50,4 @@ resource "azurerm_windows_web_app" "app" {
     "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.ai.instrumentation_key
   }
 }
+
