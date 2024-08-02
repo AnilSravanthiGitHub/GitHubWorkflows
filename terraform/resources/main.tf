@@ -45,7 +45,9 @@ resource "azurerm_windows_web_app" "app" {
   resource_group_name = data.azurerm_resource_group.rg.name
   service_plan_id     = azurerm_service_plan.asp.id
   site_config {
-  }
+    current_stack    = "dotnetcore"
+    dotnet_version = "v4.0"
+   }
   app_settings = {
     "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.ai.instrumentation_key
   }
