@@ -1,9 +1,9 @@
 storage_account_name= ""
 container_name = ""
 key=""
-resource_group_name = ""
-app_service_plan_name = ""
-app_service_name= ""
-app_insights_name  = ""
+resource_group_name = null
+app_service_plan_name = null
+app_service_name= null
+app_insights_name  = null
 app_service_plan_tier= "Standard"
 app_service_plan_sku_size= "S1"
