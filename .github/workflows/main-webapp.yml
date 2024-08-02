@@ -26,7 +26,7 @@ jobs:
   
   build-workflow: 
     needs: [vars]
-    uses: ./.github/workflows/build-dotnet.yml
+    uses: ./.github/workflows/build-webapp.yml
     with:
       dotnet_version: '${{ needs.vars.outputs.dontnet_version }}'
       artifact_name: '${{ needs.vars.outputs.artifact_name }}'
@@ -39,7 +39,7 @@ jobs:
     strategy:
       matrix:
         target: [dev]   
-    uses: ./.github/workflows/deployment-dotnet.yml
+    uses: ./.github/workflows/deployment-webapp.yml
     with:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
