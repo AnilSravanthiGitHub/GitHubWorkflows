@@ -31,8 +31,20 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
 
-    - name: Publish
-      run: dotnet publish -c Release -o ${{ github.workspace }}/${{ inputs.artifact_name }}
+    - name: Archive production artifacts
+      run: |
+        mkdir -p WorkFlow
+        cp -r build/* ${{ inputs.artifact_name }}/
+      shell: bash
 
-    outputs:
-      publish_path: ${{ github.workspace }}/${{ inputs.artifact_name }}
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: build-artifact
+        path: ${{ inputs.artifact_name }}
+
+    # - name: Publish
+    #   run: dotnet publish -c Release -o ${{ github.workspace }}/${{ inputs.artifact_name }}
+
+    # outputs:
+    #   publish_path: ${{ github.workspace }}/${{ inputs.artifact_name }}
