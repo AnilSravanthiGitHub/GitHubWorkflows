@@ -97,8 +97,8 @@ jobs:
       #     echo 'app_service_name = ${{ inputs.app_service_name }}' >> terraform/resources/terraform.tfvars
       #     echo 'app_insights_name = ${{ inputs.app_insights_name }}' >> terraform/resources/terraform.tfvars
       
-      - name: Terraform Init
-        run: terraform init -backend-config=backend-config.tfvars
+      - name: Terraform Init 
+        run: terraform init -backend-config=backend-config.tfvars  
         working-directory: terraform/resources
         env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
@@ -112,41 +112,39 @@ jobs:
         working-directory: terraform/resources
 
       - name: Terraform Plan
+        env:
+          resource_group_name : ${{ inputs.resource_group_name }}
+          app_service_plan_name : ${{ inputs.app_service_plan_name }}
+          app_service_name : ${{ inputs.app_service_name }}
+          app_insights_name : ${{ inputs.app_insights_name }}
         run: terraform plan -var-file="terraform.tfvars"
         working-directory: terraform/resources
-        env:
-          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        # env:
+          
+        #   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        #   ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+        #   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        #   ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Terraform Apply
+        env:
+          resource_group_name : ${{ inputs.resource_group_name }}
+          app_service_plan_name : ${{ inputs.app_service_plan_name }}
+          app_service_name : ${{ inputs.app_service_name }}
+          app_insights_name : ${{ inputs.app_insights_name }}
         run: terraform apply -auto-approve -var-file="terraform.tfvars"
         working-directory: terraform/resources
-        env:
-          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        # env:
+        #   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        #   ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+        #   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        #   ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       # - name: Terraform Plan
       #   run: terraform plan -var="resource_group_name=${{ inputs.resource_group_name }}" -var="storage_account_name=${{ inputs.storage_account_name }}" -var="container_name=${{ inputs.container_name }}"
       #   working-directory: terraform
 
-      # - name: Initialize Terraform
-      #   run: |
-      #      cd terraform/resources
-      #      terraform init
-      #   env:
-      #     ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      #     ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-      #     ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      #     ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
- 
-      # - name: Apply Terraform Configuration
-      #   run: terraform apply -auto-approve
-      #   working-directory: terraform/resources
-        
+      
 
       # - name: Get Storage Account Key
       #   id: get-key
@@ -172,36 +170,6 @@ jobs:
       #       -backend-config="key=terraform.tfstate"
       #   working-directory: terraform
       
-      
-      # - name: Terraform Init
-      #   env:
-      #     ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      #     ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-      #     ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      #     ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      #   run: |
-      #     cd terraform
-      #     terraform init
 
-      # - name: List files in terraform directory
-      #   run: |
-      #     cd terraform/resources
-      #     Get-ChildItem  # Ensure the file is in the directory
-  
-      # - name: Terraform Plan
-      #   run: |
-      #     cd terraform/resources
-      #     terraform plan --var-file=terraform.tfvars -out=tfplan
-
-      # - name: Terraform Apply
-      #   run: |
-      #     cd terraform/resources
-      #     terraform apply -auto-approve tfplan
-
-      # - name: Save Terraform state
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: terraform-state
-      #     path: terraform.tfstate
 
        
