@@ -92,10 +92,10 @@ jobs:
 
       - name: update terraform.tfvars
         run: | 
-          echo 'resource_group_name = ${{ inputs.resource_group_name }}' > terraform/resources/terraform.tfvars
-          echo 'app_service_plan_name = ${{ inputs.app_service_plan_name }}' >> terraform/resources/terraform.tfvars
-          echo 'app_service_name = ${{ inputs.app_service_name }}' >> terraform/resources/terraform.tfvars
-          echo 'app_insights_name = ${{ inputs.app_insights_name }}' >> terraform/resources/terraform.tfvars
+          echo 'resource_group_name = "${{ inputs.resource_group_name }}"' > terraform/resources/terraform.tfvars
+          echo 'app_service_plan_name = "${{ inputs.app_service_plan_name }}"' >> terraform/resources/terraform.tfvars
+          echo 'app_service_name = "${{ inputs.app_service_name }}"' >> terraform/resources/terraform.tfvars
+          echo 'app_insights_name = "${{ inputs.app_insights_name }}"' >> terraform/resources/terraform.tfvars
       
       - name: Terraform Init 
         run: terraform init -backend-config=backend-config.tfvars  
