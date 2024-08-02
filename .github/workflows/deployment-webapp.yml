@@ -64,4 +64,4 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ inputs.webapp_name }}
-          package: ${{ inputs.web-package-path }}
+          package: ${{env.DOTNET_ROOT}}/${{ inputs.artifact_name }}
