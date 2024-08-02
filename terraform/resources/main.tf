@@ -44,7 +44,7 @@ resource "azurerm_windows_web_app" "app" {
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
   service_plan_id     = azurerm_service_plan.asp.id
-  site_config {
+  application_stack  {
     current_stack    = "dotnetcore"
     dotnet_version = "v4.0"
    }
