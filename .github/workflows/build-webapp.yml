@@ -33,7 +33,7 @@ jobs:
 
     - name: Archive production artifacts
       run: |
-        mkdir -p WorkFlow
+        mkdir -p ${{ inputs.artifact_name }}
         cp -r build/* ${{ inputs.artifact_name }}/
       shell: bash
 
