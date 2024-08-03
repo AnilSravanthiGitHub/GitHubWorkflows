@@ -1,4 +1,4 @@
-name: build_deploy_aks
+name: main_aks_webapp
 on:
   push:
     branches: [ "main" ]    
@@ -28,6 +28,9 @@ jobs:
       - run: echo "Exposing env vars"
   
   build-AKS_workflow: 
+    permissions:
+      id-token: write
+      contents: read
     needs: [vars]
     strategy:
       matrix:
@@ -36,7 +39,7 @@ jobs:
     with:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
-      resource_group_name: '${{ needs.vars.outputs.resource_group_name }}'
+      resource_group_name: '${{ needs.vars.outputs.resource_group_name }}${{ matrix.target }}'
       registry_name: '${{ needs.vars.outputs.registry }}'
       repository_name: '${{ needs.vars.outputs.repository }}'
       cluster_name: '${{ needs.vars.outputs.cluster_name }}'
