@@ -1,23 +1,3 @@
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = ">= 3.7.0"
-    }
-  }
-  
-}
-
-terraform {
-  backend "azurerm" {}
-}
-
-provider "azurerm" { 
-  use_oidc = true
-  features {}
-  skip_provider_registration = "true"
-}
-
 data "azurerm_resource_group" "rg" {
   name                              = var.resource_group_name
 }
