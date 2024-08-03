@@ -15,7 +15,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
   dns_prefix          = "${random_pet.azurerm_kubernetes_cluster_dns_prefix.id}-k8s"
-  kubernetes_version  = "1.26.3"
+  kubernetes_version  = "1.29.5"
 
   default_node_pool {
     name            = "agentpool"
