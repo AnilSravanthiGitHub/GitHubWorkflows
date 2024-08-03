@@ -1,11 +1,11 @@
-name: Create Azure AKS With Terraform
+name: Main AKS
 on:
   push:
     branches: [ "main" ]
     paths: ["terraform/resources_aks/**"] 
 
 env:
-  RESOURCE_GROUP_NAME: 'rg-se-terrraform-'
+  RESOURCE_GROUP_NAME: 'rg-se-aks-'
   LOCATION: 'westeurope'
   STORAGE_ACCOUNT_NAME: 'stseterraform'
   CONTAINER_NAME: 'terraform-state' # CONTAINER_NAME
