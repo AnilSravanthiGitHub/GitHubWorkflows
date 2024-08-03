@@ -37,10 +37,10 @@ jobs:
         id: login
         uses: azure/login@v1.4.3
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          client-id: ${{ secrets.AKS_CLIENT_ID }}
+          client-secret: ${{ secrets.AKS_SECRET_ID }}          
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
           
 
       - name: ACR build
