@@ -27,7 +27,7 @@ jobs:
     steps:
       - run: echo "Exposing env vars"
   
-  build-AKS_workflow: 
+  build-AKS-workflow: 
     permissions:
       id-token: write
       contents: read
@@ -49,7 +49,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    needs: [vars, build-AKS_workflow]
+    needs: [vars, build-AKS-workflow]
     strategy:
       matrix:
         target: [dev]   
