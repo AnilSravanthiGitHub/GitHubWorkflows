@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Webapi/appsettings.Development.json
+/webappmvc/Properties/ServiceDependencies/app-se-mvc-dev - Web Deploy
