@@ -26,56 +26,37 @@ jobs:
       cluster_name: ${{ env.cluster_name }}
     steps:
       - run: echo "Exposing env vars"
-  build:
+  
+  build-AKS_workflow: 
     needs: [vars]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout source code 
-        uses: actions/checkout@v3
+    strategy:
+      matrix:
+        target: [dev]  
+    uses: ./.github/workflows/build-aks-webapp.yml
+    with:
+      environment: ${{ matrix.target }}
+      ref: '${{ github.ref }}'
+      resource_group_name: '${{ needs.vars.outputs.resource_group_name }}'
+      registry_name: '${{ needs.vars.outputs.registry }}'
+      repository_name: '${{ needs.vars.outputs.repository }}'
+      cluster_name: '${{ needs.vars.outputs.cluster_name }}'
+    secrets: inherit # pass all secrets
 
-      - name: Azure login
-        id: login
-        uses: azure/login@v1.4.3
-        with:
-          client-id: ${{ secrets.AKS_CLIENT_ID }}
-          client-secret: ${{ secrets.AKS_SECRET_ID }}          
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          
+  deploy-AKS-workflow-dev:
+    permissions:
+      id-token: write
+      contents: read
+    needs: [vars, build-workflow]
+    strategy:
+      matrix:
+        target: [dev]   
+    uses: ./.github/workflows/deployment-aks-webapp.yml
+    with:
+      environment: ${{ matrix.target }}
+      ref: '${{ github.ref }}'
+      resource_group_name: '${{ needs.vars.outputs.resource_group_name }}'
+      registry_name: '${{ needs.vars.outputs.registry }}'
+      repository_name: '${{ needs.vars.outputs.repository }}'
+      cluster_name: '${{ needs.vars.outputs.cluster_name }}'
+    secrets: inherit # pass all secrets
 
-      - name: ACR build
-        id: build-push-acr
-        uses: azure/acr-build@v1
-        with:
-          service_principal: ${{ secrets.AKS_CLIENT_ID }}
-          service_principal_password: ${{ secrets.AKS_SECRET_ID }}
-          tenant: ${{ secrets.AZURE_TENANT_ID }}
-          registry: '${{ needs.vars.outputs.registry }}'
-          repository: '${{ needs.vars.outputs.repository }}'
-          image:  azure-aks-webapi
-          folder: Webapi
-          branch: master
-          tag: ${{ github.sha }}
-
-
-
-      - name: Set AKS context
-        id: set-context
-        uses: azure/aks-set-context@v3
-        with:
-          resource-group: '${{ secrets.resource_group }}' 
-          cluster-name: '${{ needs.vars.outputs.cluster_name }}'
-
-      - name: Setup kubectl
-        id: install-kubectl
-        uses: azure/setup-kubectl@v3
-
-      - name: Deploy to AKS
-        id: deploy-aks
-        uses: Azure/k8s-deploy@v4
-        with:
-          namespace: 'default'
-          manifests: |
-             azure-webapi-in-one-redis.yaml
-          images: '${{ needs.vars.outputs.registry }}.azurecr.io/${{ needs.vars.outputs.repository }}/azure-vote-front:${{ github.sha }}'
-          pull-images: false
