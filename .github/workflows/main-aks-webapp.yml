@@ -8,7 +8,7 @@ on:
 env:
   RESOURCE_GROUP_NAME: 'rg-se-aks-'
   LOCATION: 'westus'
-  registry: 'aksreg'
+  registry: 'regsecontaineraks'
   repository: 'githubworkflows' 
   cluster_name: 'aks-se-webapi'
 
@@ -40,7 +40,7 @@ jobs:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
       resource_group_name: '${{ needs.vars.outputs.resource_group_name }}${{ matrix.target }}'
-      registry_name: '${{ needs.vars.outputs.registry }}'
+      registry_name: '${{ needs.vars.outputs.registry }}${{ matrix.target }}'
       repository_name: '${{ needs.vars.outputs.repository }}'
       cluster_name: '${{ needs.vars.outputs.cluster_name }}'
     secrets: inherit # pass all secrets
@@ -58,7 +58,7 @@ jobs:
       environment: ${{ matrix.target }}
       ref: '${{ github.ref }}'
       resource_group_name: '${{ needs.vars.outputs.resource_group_name }}'
-      registry_name: '${{ needs.vars.outputs.registry }}'
+      registry_name: '${{ needs.vars.outputs.registry }}${{ matrix.target }}'
       repository_name: '${{ needs.vars.outputs.repository }}'
       cluster_name: '${{ needs.vars.outputs.cluster_name }}'
     secrets: inherit # pass all secrets
