@@ -7,7 +7,7 @@ on:
 env:
   RESOURCE_GROUP_NAME: 'rg-se-aks-'
   LOCATION: 'westeurope'
-  STORAGE_ACCOUNT_NAME: 'stseterraform'
+  STORAGE_ACCOUNT_NAME: 'stseaksdev'
   CONTAINER_NAME: 'terraform-state' # CONTAINER_NAME
 
 permissions:
