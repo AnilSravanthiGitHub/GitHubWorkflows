@@ -78,21 +78,21 @@ jobs:
       
       - name: update backend-config.tfvars
         run: |
-          echo 'resource_group_name = "${{ inputs.resource_group_name }}"' > terraform/resources/backend-config.tfvars
-          echo 'storage_account_name = "${{ inputs.storage_account_name }}"' >> terraform/resources/backend-config.tfvars
-          echo 'container_name = "${{ inputs.container_name }}"' >> terraform/resources/backend-config.tfvars
-          echo 'key = "terraform.tfstate"' >> terraform/resources/backend-config.tfvars
+          echo 'resource_group_name = "${{ inputs.resource_group_name }}"' > terraform/resources_aks/backend-config.tfvars
+          echo 'storage_account_name = "${{ inputs.storage_account_name }}"' >> terraform/resources_aks/backend-config.tfvars
+          echo 'container_name = "${{ inputs.container_name }}"' >> terraform/resources_aks/backend-config.tfvars
+          echo 'key = "terraform.tfstate"' >> terraform/resources_aks/backend-config.tfvars
 
       # - name: update terraform.tfvars
       #   run: | 
-      #     echo 'resource_group_name = "${{ inputs.resource_group_name }}"' > terraform/resources/terraform.tfvars
-      #     echo 'app_service_plan_name = "${{ inputs.app_service_plan_name }}"' >> terraform/resources/terraform.tfvars
-      #     echo 'app_service_name = "${{ inputs.app_service_name }}"' >> terraform/resources/terraform.tfvars
-      #     echo 'app_insights_name = "${{ inputs.app_insights_name }}"' >> terraform/resources/terraform.tfvars
+      #     echo 'resource_group_name = "${{ inputs.resource_group_name }}"' > terraform/resources_aks/terraform.tfvars
+      #     echo 'app_service_plan_name = "${{ inputs.app_service_plan_name }}"' >> terraform/resources_aks/terraform.tfvars
+      #     echo 'app_service_name = "${{ inputs.app_service_name }}"' >> terraform/resources_aks/terraform.tfvars
+      #     echo 'app_insights_name = "${{ inputs.app_insights_name }}"' >> terraform/resources_aks/terraform.tfvars
       
       - name: Terraform Init 
         run: terraform init -backend-config=backend-config.tfvars  
-        working-directory: terraform/resources
+        working-directory: terraform/resources_aks
         env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -102,7 +102,7 @@ jobs:
 
       - name: Terraform Validate
         run: terraform validate
-        working-directory: terraform/resources
+        working-directory: terraform/resources_aks
 
       - name: Terraform Plan
         env:
@@ -112,7 +112,7 @@ jobs:
           ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         run: | 
          terraform plan -var-file="terraform.tfvars"
-        working-directory: terraform/resources
+        working-directory: terraform/resources_aks
         
 
       - name: Terraform Apply
@@ -123,7 +123,7 @@ jobs:
           ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         run: | 
          terraform apply -auto-approve -var-file="terraform.tfvars"
-        working-directory: terraform/resources
+        working-directory: terraform/resources_aks
 
       - name: Terraform Output
         run: terraform output
