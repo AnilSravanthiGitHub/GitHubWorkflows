@@ -83,9 +83,9 @@ jobs:
           echo 'container_name = "${{ inputs.container_name }}"' >> terraform/resources_aks/backend-config.tfvars
           echo 'key = "terraform.tfstate"' >> terraform/resources_aks/backend-config.tfvars
 
-      # - name: update terraform.tfvars
-      #   run: | 
-      #     echo 'resource_group_name = "${{ inputs.resource_group_name }}"' > terraform/resources_aks/terraform.tfvars
+      - name: update terraform.tfvars
+        run: | 
+          echo 'resource_group_name = "${{ inputs.resource_group_name }}"' > terraform/resources_aks/terraform.tfvars
       #     echo 'app_service_plan_name = "${{ inputs.app_service_plan_name }}"' >> terraform/resources_aks/terraform.tfvars
       #     echo 'app_service_name = "${{ inputs.app_service_name }}"' >> terraform/resources_aks/terraform.tfvars
       #     echo 'app_insights_name = "${{ inputs.app_insights_name }}"' >> terraform/resources_aks/terraform.tfvars
