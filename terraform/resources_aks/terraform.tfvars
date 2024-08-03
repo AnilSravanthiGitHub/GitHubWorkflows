@@ -1,0 +1,9 @@
+storage_account_name= ""
+container_name = ""
+key=""
+resource_group_name = null
+resource_group_location = null
+resource_group_name_prefix= null
+node_count  = null
+msi_id= null
+username= null

@@ -1,0 +1,101 @@
+name: Create Azure AKS With Terraform
+on:
+  push:
+    branches: [ "main" ]
+    paths: ["terraform/resources_aks/**"] 
+
+env:
+  RESOURCE_GROUP_NAME: 'rg-se-terrraform-'
+  LOCATION: 'westeurope'
+  STORAGE_ACCOUNT_NAME: 'stseterraform'
+  CONTAINER_NAME: 'terraform-state' # CONTAINER_NAME
+
+permissions:
+      id-token: write
+      contents: read
+jobs:
+  vars:
+    runs-on: ubuntu-22.04
+    outputs:
+      resource_group_name: ${{ env.RESOURCE_GROUP_NAME }}
+      location: ${{ env.LOCATION }}
+      storage_account_name: ${{ env.STORAGE_ACCOUNT_NAME }}
+      container_name: ${{ env.CONTAINER_NAME }}
+      
+    steps:
+      - run: echo "Exposing env vars"
+  
+  build-workflow: 
+    uses: ./.github/workflows/build-terraform.yml  
+
+  deploy-aks-cluster-workflow-dev:    
+    permissions:
+      id-token: write
+      contents: read
+    needs: [vars, build-workflow]
+    strategy:
+      matrix:
+        target: [dev]   
+    uses: ./.github/workflows/deployment-aks.yml
+    with:
+      environment: ${{ matrix.target }}
+      ref: '${{ github.ref }}'
+      resource_group_name: '${{ needs.vars.outputs.resource_group_name }}${{ matrix.target }}'
+      location: '${{ needs.vars.outputs.location }}'
+      storage_account_name: '${{ needs.vars.outputs.storage_account_name }}${{ matrix.target }}'
+      container_name: '${{ needs.vars.outputs.container_name }}${{ matrix.target }}'      
+    secrets: inherit # pass all secrets
+
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: AKS
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.1.0
+        
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2.0.2
+        with:
+          terraform_version: latest
+          cli_config_credentials_token: ${{ secrets.TFC_TOKEN_ID }}
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+      
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan
+        continue-on-error: true
+
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+
+      - name: Terraform Output
+        run: terraform output
+
+      #- name: Deploy Application
+      #  run: |
+      #    az aks get-credentials -n "cluster-bursting-jennet" -g "rg-refined-swine"
+      #    kubectl apply -f ./AKSApp/aks-store-quickstart.yaml
+      #    sleep 40
+      #    kubectl get service store-front
+      #    rm -rf ~/.kube
