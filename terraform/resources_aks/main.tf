@@ -11,9 +11,9 @@ resource "random_pet" "azurerm_kubernetes_cluster_dns_prefix" {
 }
 
 resource "azurerm_kubernetes_cluster" "k8s" {
-  name                = "${azurerm_kubernetes_cluster_name.prefix.id}-aks"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  name                = "${random_pet.azurerm_kubernetes_cluster_name.prefix.id}-aks"
+  location            = data.azurerm_resource_group.rg.location
+  resource_group_name = data.azurerm_resource_group.rg.name
   dns_prefix          = "${random_pet.azurerm_kubernetes_cluster_dns_prefix.id}-k8s"
   kubernetes_version  = "1.26.3"
 
