@@ -46,7 +46,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    needs: [vars, build-workflow]
+    needs: [vars, build-AKS_workflow]
     strategy:
       matrix:
         target: [dev]   
