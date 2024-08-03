@@ -38,7 +38,7 @@ on:
         required: true
       AKS_CLIENT_ID:
         required: true
-      AKS_CLIENT_SECRET:
+      AKS_SECRET_ID:
         required: true
       AZURE_TENANT_ID:
         required: true
@@ -61,7 +61,7 @@ jobs:
         uses: azure/login@v1
         with:
           client-id: ${{ secrets.AKS_CLIENT_ID }}
-          client-secret: ${{ secrets.AKS_CLIENT_SECRET }}
+          client-secret: ${{ secrets.AKS_SECRET_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 

@@ -38,7 +38,7 @@ on:
         required: true
       AKS_CLIENT_ID:
         required: true
-      AKS_CLIENT_SECRET:
+      AKS_SECRET_ID:
         required: true
       AZURE_TENANT_ID:
         required: true
@@ -67,7 +67,7 @@ jobs:
         uses: azure/acr-build@v1
         with:
           service_principal: ${{ secrets.AKS_CLIENT_ID }}
-          service_principal_password: ${{ secrets.AKS_CLIENT_SECRET }}
+          service_principal_password: ${{ secrets.AKS_SECRET_ID }}
           tenant: ${{ secrets.AZURE_TENANT_ID }}
           registry: '${{ inputs.registry_name }}'
           repository: '${{ inputs.repository_name }}'
